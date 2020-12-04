@@ -1,0 +1,33 @@
+Bootstrap: localimage
+From: ssw.sif
+
+%post
+	apt -y update
+	apt -y upgrade
+    apt -y install git
+    
+    mkdir /usr/local/idl_lib
+    cd /usr/local/idl_lib
+    git clone https://github.com/coronal-jets/pipeline_aia.git
+    git clone https://github.com/coronal-jets/pipeline_common.git
+    git clone https://git.iszf.irk.ru/anfinogentov/idl_lib.git
+    
+    echo "print,'idl_start'" >> /usr/local/idl_lib/idlstart.pro
+    echo "device, true_color = 24" >> /usr/local/idl_lib/idlstart.pro
+    echo "device, decomposed=0" >> /usr/local/idl_lib/idlstart.pro
+    echo "device, retain=2" >> /usr/local/idl_lib/idlstart.pro
+    echo "print,'adding lib to path'" >> /usr/local/idl_lib/idlstart.pro
+    echo "!path=!path+':'+expand_path('+/usr/local/idl_lib')" >> /usr/local/idl_lib/idlstart.pro
+
+%environment
+
+	
+			
+%runscript
+    export SSW=/usr/local/ssw
+    export IDL_DIR=/usr/local/exelis/idl
+    export SSW_INSTR='gen ontology'
+    export IDL_STARTUP="/usr/local/idl_lib/idlstart.pro"
+    alias ssw="csh /usr/local/ssw/ssw.csh"
+    alias sswde="csh /usr/local/ssw/sswde.csh"
+	ssw -e "jet_run&exit"
