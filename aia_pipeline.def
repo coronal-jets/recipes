@@ -4,7 +4,7 @@ From: ssw.sif
 %post
 	apt -y update
 	apt -y upgrade
-    apt -y install git
+    apt -y install git libidn11 aria2 ffmpeg
     
     mkdir /usr/local/idl_lib
     cd /usr/local/idl_lib
